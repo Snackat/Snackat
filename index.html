@@ -4,37 +4,132 @@
   <meta charset="UTF-8">
   <title>طلب منتجات</title>
   <style>
-    body { font-family: Arial; padding: 20px; direction: rtl; }
-    .product { margin-bottom: 15px; }
-    label { display: block; margin-bottom: 5px; }
-    input[type="number"] { width: 60px; }
+    body {
+      font-family: 'Cairo', sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      padding: 20px;
+    }
+
+    h2 {
+      color: #B22222;
+      text-align: center;
+    }
+
+    .product {
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 10px;
+      background: white;
+      margin-bottom: 15px;
+    }
+
+    .product img {
+      width: 100px;
+      margin-right: 10px;
+    }
+
+    .product label {
+      font-size: 16px;
+      color: #333;
+    }
+
+    input[type="number"] {
+      width: 60px;
+    }
+
+    input[type="text"] {
+      padding: 5px;
+      margin: 10px 0;
+      width: 100%;
+    }
+
+    button {
+      background-color: #B22222;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #8B0000;
+    }
+
+    .search-container {
+      margin-bottom: 20px;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
 
   <h2>منيو الطلب</h2>
 
+  <!-- خاصية البحث -->
+  <div class="search-container">
+    <input type="text" id="search" placeholder="ابحث عن المنتج..." onkeyup="searchProducts()">
+  </div>
+
   <form id="orderForm">
-    <div class="product">
-      <label>نودلز كوري حار (10 ريال)</label>
-      <input type="number" name="نودلز كوري حار" min="0" placeholder="كمية">
+
+    <!-- شيبسات -->
+    <h3>شيبسات</h3>
+    <div class="product" data-name="شيبس كوري">
+      <img src="https://i.imgur.com/XnYlYpD.jpg" alt="شيبس كوري">
+      <label>شيبس كوري (6 ريال)</label>
+      <input type="number" name="شيبس كوري" min="0" placeholder="كمية">
     </div>
 
-    <div class="product">
-      <label>شيبس ياباني (6 ريال)</label>
-      <input type="number" name="شيبس ياباني" min="0" placeholder="كمية">
+    <!-- شوكولاتات -->
+    <h3>شوكولاتات</h3>
+    <div class="product" data-name="شوكولاتة ميلكا">
+      <img src="https://i.imgur.com/FmJ0IKf.jpg" alt="شوكولاتة ميلكا">
+      <label>شوكولاتة ميلكا (8 ريال)</label>
+      <input type="number" name="شوكولاتة ميلكا" min="0" placeholder="كمية">
     </div>
 
+    <!-- عصاير -->
+    <h3>عصاير</h3>
+    <div class="product" data-name="عصير برتقال">
+      <img src="https://i.imgur.com/2a0A6bP.jpg" alt="عصير برتقال">
+      <label>عصير برتقال (5 ريال)</label>
+      <input type="number" name="عصير برتقال" min="0" placeholder="كمية">
+    </div>
+
+    <!-- الاسم ورقم الواتساب -->
     <label>اسمك:</label>
     <input type="text" name="الاسم" required><br><br>
 
     <label>رقم واتساب:</label>
     <input type="text" name="الرقم" required><br><br>
 
+    <!-- زر الدفع عبر PayPal -->
+    <form action="https://www.paypal.com/paypalme/YourUsernameHere" target="_blank">
+      <button type="submit">الدفع عبر PayPal</button>
+    </form>
+
+    <br>
     <button type="submit">إرسال الطلب</button>
   </form>
 
   <script>
+    // خاصية البحث
+    function searchProducts() {
+      let searchQuery = document.getElementById('search').value.toLowerCase();
+      let products = document.querySelectorAll('.product');
+      
+      products.forEach(product => {
+        let productName = product.getAttribute('data-name').toLowerCase();
+        if (productName.includes(searchQuery)) {
+          product.style.display = 'block';
+        } else {
+          product.style.display = 'none';
+        }
+      });
+    }
+
+    // إرسال الطلب
     document.getElementById("orderForm").addEventListener("submit", function(e){
       e.preventDefault();
       const data = new FormData(this);
@@ -52,4 +147,3 @@
 
 </body>
 </html>
-
